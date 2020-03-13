@@ -381,13 +381,14 @@ class HiddenMarkovModel:
                 for xt in range(self.D):
                     self.O[curr][xt] = O_num[curr][xt] / O_den[curr]
 
-    def generate_emission(self, M):
+    def generate_emission(self, M, seed=None):
         '''
-        Generates an emission of length M, assuming that the starting state
-        is chosen uniformly at random. 
+        Generates an emission of length M. 
+        Modified for Miniproject 3 by Amanda Li. 
 
         Arguments:
             M:          Length of the emission to generate.
+            seed:       integer corresponding to word to seed end of an emission with
 
         Returns:
             emission:   The randomly generated emission as a list.
@@ -396,7 +397,11 @@ class HiddenMarkovModel:
         '''
 
         emission = []
-        state = random.choice(range(self.L))
+        if seed == None:
+            state = random.choice(range(self.L))
+        else: 
+            state = seed 
+            
         states = []
 
         for t in range(M):
