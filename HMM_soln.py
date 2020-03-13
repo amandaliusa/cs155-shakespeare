@@ -397,26 +397,26 @@ class HiddenMarkovModel:
         '''
 
         emission = []
-        if seed == None:
-            state = random.choice(range(self.L))
-        else: 
-            state = seed 
-            
+        state = random.choice(range(self.L))    
         states = []
 
         for t in range(M):
             # Append state.
             states.append(state)
+            
+            if t == 0 and seed != None:
+                    next_obs = seed
+            else:
+                # Sample next observation.
+                rand_var = random.uniform(0, 1)
+                next_obs = 0
 
-            # Sample next observation.
-            rand_var = random.uniform(0, 1)
-            next_obs = 0
+                while rand_var > 0:
+                    rand_var -= self.O[state][next_obs]
+                    next_obs += 1
 
-            while rand_var > 0:
-                rand_var -= self.O[state][next_obs]
-                next_obs += 1
-
-            next_obs -= 1
+                next_obs -= 1
+                
             emission.append(next_obs)
 
             # Sample next state.
